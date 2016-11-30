@@ -189,15 +189,22 @@ public class Cube {
 	
 	// MESS ZONE BELOW DO NOT ENTER //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves){
+	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves, int depth){
+		
+		ArrayList<String> listOfMove = new ArrayList<String>(listOfMoves);
 		
 		ArrayList<String> bestMoveCombo = new ArrayList<String>();
-		ArrayList<String> potentialSolution = null;
-		int shortestSolution = 	20;
 		
-		if(listOfMoves.size() < 20){
+		ArrayList<String> potentialSolution = new ArrayList<String>();
+		
+		int highestScoreSoFar = -1;
+		
+		if(listOfMove.size() < 16){
 			if(cubeCopy.checkIfSolved() == true){
-				return listOfMoves;
+				
+				listOfMove.add(0, "1048576");
+				
+				return listOfMove;
 			}
 			else{
 				
@@ -205,60 +212,65 @@ public class Cube {
 					switch(index){
 						case 0:
 							// Try by rotating the front
-							listOfMoves.add(cubeCopy.rotateFront());
-							potentialSolution = findSolution(cubeCopy,listOfMoves);
-							
+		
+							listOfMove.add(cubeCopy.rotateFront());
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
+						
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateFront();
 							}
 								
-							listOfMoves.remove(listOfMoves.size()-1);
+						
+	
 								
 							break;
 						
 						
 						case 1:
 							
-							listOfMoves.add(cubeCopy.rotateUp());
-							potentialSolution = findSolution(cubeCopy,listOfMoves);
+							listOfMove.add(cubeCopy.rotateUp());
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
 							
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateUp();
 							}
 							
-							listOfMoves.remove(listOfMoves.size()-1);
-							
+
+					
 							break;
 						case 2:
 							
 							// Try by rotating the right
-							listOfMoves.add(cubeCopy.rotateRight());
-							potentialSolution = findSolution(cubeCopy,listOfMoves);
+							listOfMove.add(cubeCopy.rotateRight());
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
 							
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateRight();
 							}
 							
-							listOfMoves.remove(listOfMoves.size()-1);
-							
+				
+						
 							break;
 					}
 					
+					int score = Integer.parseInt(potentialSolution.get(0));
 					
-					if(potentialSolution.size() <= shortestSolution){
-				
-							bestMoveCombo = potentialSolution;
-							shortestSolution = potentialSolution.size();
-				
+					if(score > highestScoreSoFar){
+						bestMoveCombo = potentialSolution;
+						highestScoreSoFar = score;
 					}
+					
+					listOfMove.remove(listOfMove.size()-1);
 				}
-
+				
+				bestMoveCombo.set(0, String.valueOf(highestScoreSoFar / 2));
 				return bestMoveCombo;
 			
 			}
 		}
 		
-		return null;
+		listOfMove.add(0,"0");
+		return listOfMove;
 	}
 	
 	
@@ -269,15 +281,15 @@ public class Cube {
 	
 		ArrayList<String> bestMoveCombo = new ArrayList<String>();
 		ArrayList<String> potentialSolution = null;
-		int shortestSolution = 900;
+		int highestScoreSoFar = -1;
 	
 			for(int index = 0; index < 3; index ++){
 					
 				if(index == 0){
 					// Try by rotating the front
 					listOfMoves.add(cubeCopy.rotateFront());
-					potentialSolution = findSolution(cubeCopy,listOfMoves);
-					
+					potentialSolution = findSolution(cubeCopy,listOfMoves, 1);
+					System.out.println(potentialSolution.get(0));
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateFront();
 					}
@@ -289,8 +301,8 @@ public class Cube {
 				if(index == 1){
 					// Try by rotating the top
 					listOfMoves.add(cubeCopy.rotateUp());
-					potentialSolution = findSolution(cubeCopy,listOfMoves);
-					
+					potentialSolution = findSolution(cubeCopy,listOfMoves,1);
+		
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateUp();
 					}
@@ -301,8 +313,8 @@ public class Cube {
 				if(index == 2){
 					// Try by rotating the right
 					listOfMoves.add(cubeCopy.rotateRight());
-					potentialSolution = findSolution(cubeCopy,listOfMoves);
-					
+					potentialSolution = findSolution(cubeCopy,listOfMoves,1);
+		
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateRight();
 					}
@@ -311,9 +323,11 @@ public class Cube {
 				}
 				
 				
-				if(shortestSolution > potentialSolution.size()){
+				int score = Integer.parseInt(potentialSolution.get(0));
+				
+				if(score > highestScoreSoFar){
 					bestMoveCombo = potentialSolution;
-					shortestSolution = potentialSolution.size();
+					highestScoreSoFar = score;
 				}
 				
 			}

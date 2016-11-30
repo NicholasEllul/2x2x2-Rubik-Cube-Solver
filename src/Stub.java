@@ -5,11 +5,16 @@ public class Stub {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		long startTime = System.currentTimeMillis();
 		
+	
+		System.out.println("Calculating");
 		String userTest = "yyyyggggwwwwbbbbrrrroooo";
-		String userTestTwo = "ybybgygywgwgbwbwrrrroooo";
+		String userTestTwo = "yygggwoowbwbybrrrrgwooyb";
 		String userTestThree = "yyyyrrggwwwwoobbbbrrggoo";
-		Cube testCube = new Cube(userTestThree);
+		String userTestFour =  "ooyyggggwwrrbbbbyryrowow";
+		String userTestFive = "yorgoobgywwwboyggryrbbwr";
+		Cube testCube = new Cube(userTestFive);
 		
 //		testCube.rotateRight();
 		
@@ -26,7 +31,10 @@ public class Stub {
 		
 		testCube.findSolution(testCube);
 
-	
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		
+		System.out.println(totalTime);
 		
 		
 				System.out.println("Done");
