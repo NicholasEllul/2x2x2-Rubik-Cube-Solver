@@ -189,7 +189,7 @@ public class Cube {
 	
 	// MESS ZONE BELOW DO NOT ENTER //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves, int depth){
+	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves, int maxMoves){
 		
 		ArrayList<String> listOfMove = new ArrayList<String>(listOfMoves);
 		
@@ -199,7 +199,7 @@ public class Cube {
 		
 		int highestScoreSoFar = -1;
 		
-		if(listOfMove.size() < 16){
+		if(listOfMove.size() < maxMoves){
 			if(cubeCopy.checkIfSolved() == true){
 				
 				listOfMove.add(0, "1048576");
@@ -214,7 +214,7 @@ public class Cube {
 							// Try by rotating the front
 		
 							listOfMove.add(cubeCopy.rotateFront());
-							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 						
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateFront();
@@ -229,7 +229,7 @@ public class Cube {
 						case 1:
 							
 							listOfMove.add(cubeCopy.rotateUp());
-							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 							
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateUp();
@@ -242,7 +242,7 @@ public class Cube {
 							
 							// Try by rotating the right
 							listOfMove.add(cubeCopy.rotateRight());
-							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, depth + 1));
+							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 							
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateRight();
@@ -276,8 +276,8 @@ public class Cube {
 	
 	
 	
-	public void findSolutionRemake(Cube cubeCopy, ArrayList<String> listOfMoves, 
-		int moves){
+	public boolean findSolutionRemake(Cube cubeCopy, ArrayList<String> listOfMoves, 
+		int maxMoves){
 	
 		ArrayList<String> bestMoveCombo = new ArrayList<String>();
 		ArrayList<String> potentialSolution = null;
@@ -288,7 +288,7 @@ public class Cube {
 				if(index == 0){
 					// Try by rotating the front
 					listOfMoves.add(cubeCopy.rotateFront());
-					potentialSolution = findSolution(cubeCopy,listOfMoves, 1);
+					potentialSolution = findSolution(cubeCopy,listOfMoves, maxMoves);
 					System.out.println(potentialSolution.get(0));
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateFront();
@@ -301,7 +301,7 @@ public class Cube {
 				if(index == 1){
 					// Try by rotating the top
 					listOfMoves.add(cubeCopy.rotateUp());
-					potentialSolution = findSolution(cubeCopy,listOfMoves,1);
+					potentialSolution = findSolution(cubeCopy,listOfMoves,maxMoves);
 		
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateUp();
@@ -313,7 +313,7 @@ public class Cube {
 				if(index == 2){
 					// Try by rotating the right
 					listOfMoves.add(cubeCopy.rotateRight());
-					potentialSolution = findSolution(cubeCopy,listOfMoves,1);
+					potentialSolution = findSolution(cubeCopy,listOfMoves,maxMoves);
 		
 					for(int counter = 0; counter < 3; counter ++){
 						cubeCopy.rotateRight();
@@ -331,13 +331,32 @@ public class Cube {
 				}
 				
 			}
-		printMoves(bestMoveCombo);
+			if(Integer.parseInt(bestMoveCombo.get(0)) == 0){
+				return false;	
+			}
+			else{
+			
+				printMoves(bestMoveCombo);
+				return true;
+			}
 		
 		}
 	
 	public void findSolution(Cube cubeCopy){
-		int leastMovesMade = 100;
-		 findSolutionRemake(cubeCopy,new ArrayList<String>(), 1);
+		
+		if(cubeCopy.checkIfSolved() == false){
+		
+			System.out.println("\nPlease wait a second...");
+			if(!findSolutionRemake(cubeCopy,new ArrayList<String>(), 16)){
+				
+				 findSolutionRemake(cubeCopy,new ArrayList<String>(), 20);
+				 
+			 }	
+		}else{
+			System.out.println("\nYour cube is already solved!");
+		}
+		 
+		 
 		//ArrayList<String> optimalSolution;
 		
 		

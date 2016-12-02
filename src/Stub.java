@@ -13,21 +13,8 @@ public class Stub {
 		String userTestTwo = "yygggwoowbwbybrrrrgwooyb";
 		String userTestThree = "yyyyrrggwwwwoobbbbrrggoo";
 		String userTestFour =  "ooyyggggwwrrbbbbyryrowow";
-		String userTestFive = "yorgoobgywwwboyggryrbbwr";
-		Cube testCube = new Cube(userTestFive);
-		
-//		testCube.rotateRight();
-		
-	//	testCube.findSolution(testCube);
-		
-
-		
-	//	testCube.rotateUp();
-		
-		
-		//for(int counter = 0; counter < 3; counter ++){
-	//		testCube.rotateUp();
-	//	}
+		String userTestFive = "yyyyororwwwwrorobgbggbgb";
+		Cube testCube = new Cube(userTest);
 		
 		testCube.findSolution(testCube);
 
@@ -36,9 +23,8 @@ public class Stub {
 		
 		System.out.println(totalTime);
 		
-		
-				System.out.println("Done");
-		System.out.println("");
+		System.out.println("Done");
+
 	}
 
 }
