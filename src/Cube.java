@@ -2,8 +2,8 @@
 /*****************************************************************************
  *
  * Created by: Nicholas Ellul
- * Created on: Nov 2016
- * This file contains the code for the dice object.  
+ * Created on: Dec 2016
+ * This file contains the code for for the 2x2x2 Rubik's cube object.  
  *****************************************************************************/
 
 import java.util.ArrayList;
