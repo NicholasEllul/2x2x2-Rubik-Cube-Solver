@@ -8,22 +8,22 @@ public class Stub {
 		long startTime = System.currentTimeMillis();
 		
 	
-		System.out.println("Calculating");
+	
 		String userTest = "yyyyggggwwwwbbbbrrrroooo";
 		String userTestTwo = "yygggwoowbwbybrrrrgwooyb";
 		String userTestThree = "yyyyrrggwwwwoobbbbrrggoo";
 		String userTestFour =  "ooyyggggwwrrbbbbyryrowow";
-		String userTestFive = "yyyyororwwwwrorobgbggbgb";
-		Cube testCube = new Cube(userTest);
+		String userTestFive = "bwwggorgrwyyrboobgoywrby";
+		Cube testCube = new Cube(userTestFive);
 		
-		testCube.findSolution(testCube);
+		testCube.findSolution();
 
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		
-		System.out.println(totalTime);
+	//	System.out.println(totalTime);
 		
-		System.out.println("Done");
+		System.out.println("Done.");
 
 	}
 

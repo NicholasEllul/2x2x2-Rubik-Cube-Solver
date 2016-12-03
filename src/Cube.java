@@ -176,8 +176,8 @@ public class Cube {
 		
 		try{
 			
-			for(int index = 0; index < listOfMoves.size(); index++){
-				System.out.println(index + 1 + ". " + listOfMoves.get(index));
+			for(int index = 1; index < listOfMoves.size(); index++){
+				System.out.println(index + ". " + listOfMoves.get(index));
 			}
 			
 		}
@@ -191,84 +191,103 @@ public class Cube {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves, int maxMoves){
 		
+		// Variables
+		
+		// listOfMoves was assigned listOfMoves because in Java when you pass an array list
+		// you pass its reference not a copy. I wanted a copy so I copy it manually.
 		ArrayList<String> listOfMove = new ArrayList<String>(listOfMoves);
-		
 		ArrayList<String> bestMoveCombo = new ArrayList<String>();
-		
 		ArrayList<String> potentialSolution = new ArrayList<String>();
-		
 		int highestScoreSoFar = -1;
 		
+		// I need to limit the range of moves so that it doesn't recurse forever
 		if(listOfMove.size() < maxMoves){
+			
+			
 			if(cubeCopy.checkIfSolved() == true){
+			
+				// The reason I added this super huge number is because the 
+				// way I check what the best solution is is by checking this number
+				// each time this list is returned the number is divided by 2
+				// This means that if the cube was solved in 10 moves,
+				// The number would be divided by 2 10 times. (1024)
+				// If a cube was solved in 3 moves the number would be 131072.
+				// I know that the second solution is the optimal solution because
+				// it has a higher value since it was divided less times.
 				
+				// This algorithm works as long as the number below is 
+				// greater than or equal to 2^maxMoves.
 				listOfMove.add(0, "1048576");
 				
 				return listOfMove;
 			}
 			else{
 				
+				// If the cube isn't solved, try each of these moves.
 				for(int index = 0; index < 3; index++){
+					
 					switch(index){
-						case 0:
-							// Try by rotating the front
-		
+						case 0:	// Try by rotating the front clockwise
+							
 							listOfMove.add(cubeCopy.rotateFront());
 							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 						
+							// Undo the rotation by rotating it 3 more times.
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateFront();
 							}
-								
+							
+							break;			
 						
-	
-								
-							break;
-						
-						
-						case 1:
+						case 1: // Try rotating the top clockwise
 							
 							listOfMove.add(cubeCopy.rotateUp());
 							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 							
+							// Undo the rotation by rotating it 3 more times.
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateUp();
 							}
-							
-
-					
 							break;
+							
 						case 2:
 							
-							// Try by rotating the right
+							// Try by rotating the right side clockwise
 							listOfMove.add(cubeCopy.rotateRight());
 							potentialSolution = new ArrayList<String>(findSolution(cubeCopy,listOfMove, maxMoves));
 							
+							// Undo the rotation by rotating it 3 more times.
 							for(int counter = 0; counter < 3; counter ++){
 								cubeCopy.rotateRight();
 							}
-							
-				
-						
 							break;
+							
 					}
 					
+					// The score is the number we added to the front of the array when a cube is solved.
+					// If no solution was found with a set of moves, this number is 0.
+					// Score is basically an indication of how many moves it took to solve the cube.
 					int score = Integer.parseInt(potentialSolution.get(0));
 					
+					// If this is the new best solution.
 					if(score > highestScoreSoFar){
+						// King this list of moves as the best combo
 						bestMoveCombo = potentialSolution;
 						highestScoreSoFar = score;
 					}
 					
+					// Remove the move I just made so that I can try the next possible move.
 					listOfMove.remove(listOfMove.size()-1);
 				}
 				
+				// Divide that "score" in front by 2 since its taken an extra move to solve.
 				bestMoveCombo.set(0, String.valueOf(highestScoreSoFar / 2));
 				return bestMoveCombo;
 			
 			}
 		}
 		
+		// No solution found for this given move combination. Score is 0.
 		listOfMove.add(0,"0");
 		return listOfMove;
 	}
@@ -276,87 +295,54 @@ public class Cube {
 	
 	
 	
-	public boolean findSolutionRemake(Cube cubeCopy, ArrayList<String> listOfMoves, 
-		int maxMoves){
 	
-		ArrayList<String> bestMoveCombo = new ArrayList<String>();
-		ArrayList<String> potentialSolution = null;
-		int highestScoreSoFar = -1;
-	
-			for(int index = 0; index < 3; index ++){
-					
-				if(index == 0){
-					// Try by rotating the front
-					listOfMoves.add(cubeCopy.rotateFront());
-					potentialSolution = findSolution(cubeCopy,listOfMoves, maxMoves);
-					System.out.println(potentialSolution.get(0));
-					for(int counter = 0; counter < 3; counter ++){
-						cubeCopy.rotateFront();
-					}
-						
-					listOfMoves.remove(listOfMoves.size()-1);
-						
-						
-				}
-				if(index == 1){
-					// Try by rotating the top
-					listOfMoves.add(cubeCopy.rotateUp());
-					potentialSolution = findSolution(cubeCopy,listOfMoves,maxMoves);
+	public void findSolution(){
+		// This is the method the user calls. 
+		// It inputs the necessary parameters into the recursive function
+		// that the user shouldnt have to type in.
 		
-					for(int counter = 0; counter < 3; counter ++){
-						cubeCopy.rotateUp();
-					}
-					
-					listOfMoves.remove(listOfMoves.size()-1);
-					
-				}
-				if(index == 2){
-					// Try by rotating the right
-					listOfMoves.add(cubeCopy.rotateRight());
-					potentialSolution = findSolution(cubeCopy,listOfMoves,maxMoves);
+		Cube cubeCopy = this;
+		Boolean solved;
 		
-					for(int counter = 0; counter < 3; counter ++){
-						cubeCopy.rotateRight();
-					}
-					
-					listOfMoves.remove(listOfMoves.size()-1);
-				}
-				
-				
-				int score = Integer.parseInt(potentialSolution.get(0));
-				
-				if(score > highestScoreSoFar){
-					bestMoveCombo = potentialSolution;
-					highestScoreSoFar = score;
-				}
-				
-			}
+		System.out.println("\n Calculating please wait...");
+		// Try solving in less than 16 moves. (Takes 10-20s)
+		ArrayList<String> bestMoveCombo = cubeCopy.findSolution(cubeCopy, new ArrayList<String>(), 16);
+			
+		// If the cube isn't solved
+		if(cubeCopy.checkIfSolved() == false){
+		
+			// If the score of the best move combo is 0, that means no solution found.
 			if(Integer.parseInt(bestMoveCombo.get(0)) == 0){
-				return false;	
+				solved = false;	
 			}
 			else{
 			
-				printMoves(bestMoveCombo);
-				return true;
+				solved =  true;
 			}
-		
-		}
-	
-	public void findSolution(Cube cubeCopy){
-		
-		if(cubeCopy.checkIfSolved() == false){
-		
-			System.out.println("\nPlease wait a second...");
-			if(!findSolutionRemake(cubeCopy,new ArrayList<String>(), 16)){
+			
+			
+			// If the above didn't solve the cube,
+			// do the function again but with a higher move
+			// threshold 
+			if(solved == false){
 				
-				 findSolutionRemake(cubeCopy,new ArrayList<String>(), 20);
+				System.out.println("Quick solve didn't find a solution.");
+				System.out.println("Deep solve will find a solution in ~30 min.");
+
+				// With a limit of 20 moves, the recursion takes ~30 min.
+				bestMoveCombo = findSolution(cubeCopy,new ArrayList<String>(), 20);
 				 
 			 }	
+				// Now that we have a solution print out the steps.
+				printMoves(bestMoveCombo);
+				
 		}else{
+			// This was if the user entered an already solved cube.
 			System.out.println("\nYour cube is already solved!");
 		}
 		 
-		 
+
+		
 		//ArrayList<String> optimalSolution;
 		
 		
