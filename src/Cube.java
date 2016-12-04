@@ -18,18 +18,31 @@ public class Cube {
 	Face _frontFace;
 	Face _backFace;
 	
+	// Constructor
 	public Cube(String cubeInput){
 		
-		this._bottomFace = new Face(cubeInput.substring(0, 4));
-		this._frontFace = new Face(cubeInput.substring(4, 8));
-		this._topFace = new Face(cubeInput.substring(8, 12));
-		this._backFace = new Face(cubeInput.substring(12, 16));
-		this._rightFace = new Face(cubeInput.substring(16, 20));
-		this._leftFace = new Face(cubeInput.substring(20, 24));
+		// Creates the faces of the cube based on input
+		try{
+			this._bottomFace = new Face(cubeInput.substring(0, 4));
+			this._frontFace = new Face(cubeInput.substring(4, 8));
+			this._topFace = new Face(cubeInput.substring(8, 12));
+			this._backFace = new Face(cubeInput.substring(12, 16));
+			this._rightFace = new Face(cubeInput.substring(16, 20));
+			this._leftFace = new Face(cubeInput.substring(20, 24));
+		}
+		catch(StringIndexOutOfBoundsException error){
+			// If they don't provide 24 colors end the program.
+			System.err.println("\nInvalid cube. Please try running the program again.");
+			System.exit(1);
+		}
+		
 		
 	}
 	
-	public String rotateRight(){
+	
+	// Private Methods
+	private String rotateRight(){
+		// Rotates the right face clockwise
 		
 		// These two variables hold item temporarily.
 		// Read the next comment to find out why.
@@ -77,10 +90,12 @@ public class Cube {
 		return "Rotate right side clockwise.";
 	}
 	
-	public String rotateUp(){
+	
+	private String rotateUp(){
+		// Rotates the upper face clockwise.
+		
 		// These two variables hold item temporarily.
 		// Read the next comment to find out why.
-		
 		Square[] tempSquareHolder = new Square[2];
 		Square tempSquareOnRotatingFace;
 		
@@ -124,11 +139,11 @@ public class Cube {
 		return "Rotate top side clockwise.";
 	}
 	
-	public String rotateFront(){
+	private String rotateFront(){
+		// Rotates the front face clockwise
 		
 		// These two variables hold item temporarily.
 		// Read the next comment to find out why.
-		
 		Square[] tempSquareHolder = new Square[2];
 		Square tempSquareOnRotatingFace;
 		
@@ -168,28 +183,34 @@ public class Cube {
 		// Fills void
 		this._frontFace.setSquareAt(tempSquareOnRotatingFace,1);
 		
-		
+		// Instuction for user.
 		return "Rotate front side clockwise.";
 	}
 	
 	private void printMoves(ArrayList<String> listOfMoves){
+		// Prints out the numbered steps to solve the cube.
 		
 		try{
 			
+			// Print out numbered steps. Starts at index 1 since we don't
+			// need to see the score stored at index 0.
 			for(int index = 1; index < listOfMoves.size(); index++){
 				System.out.println(index + ". " + listOfMoves.get(index));
 			}
 			
 		}
 		catch(IndexOutOfBoundsException error){
-			System.err.println("test");
+			System.err.println("No solution found.");
 		}
 
 	}
 	
-	// MESS ZONE BELOW DO NOT ENTER //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	public ArrayList<String> findSolution(Cube cubeCopy, ArrayList<String> listOfMoves, int maxMoves){
+	
+	private ArrayList<String> findSolution(Cube cubeCopy,
+			ArrayList<String> listOfMoves, int maxMoves){
+		// Uses recursion to find all the combinations of moves a user 
+		// could make to solve the cube. It then finds the optimal solution
+		// and returns it.
 		
 		// Variables
 		
@@ -293,13 +314,11 @@ public class Cube {
 	}
 	
 	
-	
-	
-	
+	// Public Methods
 	public void findSolution(){
 		// This is the method the user calls. 
 		// It inputs the necessary parameters into the recursive function
-		// that the user shouldnt have to type in.
+		// that the user shouldn't have to type in.
 		
 		Cube cubeCopy = this;
 		Boolean solved;
@@ -320,7 +339,6 @@ public class Cube {
 				solved =  true;
 			}
 			
-			
 			// If the above didn't solve the cube,
 			// do the function again but with a higher move
 			// threshold 
@@ -339,19 +357,12 @@ public class Cube {
 		}else{
 			// This was if the user entered an already solved cube.
 			System.out.println("\nYour cube is already solved!");
-		}
-		 
-
-		
-		//ArrayList<String> optimalSolution;
-		
-		
+		}		
 	}
 	
-	// MESS ZONE ABOVE DO NOT ENTER //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	public boolean checkIfSolved(){
+		// Returns true if the cube is solved. False if it isn't
 		
 		if(  this._topFace.checkIfFaceIsSolved() == true &&
 			 this._bottomFace.checkIfFaceIsSolved() == true &&

@@ -2,7 +2,7 @@
 /*****************************************************************************
  *
  * Created by: Nicholas Ellul
- * Created on: Nov 2016
+ * Created on: Dec 2016
  * This file contains the code for the face of a 2x2x2 Rubik's cube object
  *****************************************************************************/
 public class Face {

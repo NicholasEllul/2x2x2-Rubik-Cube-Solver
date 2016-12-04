@@ -2,7 +2,7 @@
 /*****************************************************************************
  *
  * Created by: Nicholas Ellul
- * Created on: Nov 2016
+ * Created on: Dec 2016
  * This file contains the code for the square object that goes on the face
  * of a Rubik's cube.
  *****************************************************************************/
