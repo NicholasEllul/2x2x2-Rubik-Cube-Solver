@@ -41,7 +41,7 @@ public class Stub {
 				+ " FACE.");
 		
 		System.out.println("Remember the face facing up because this will be"
-				+ "your TOP FACE.");
+				+ " your TOP FACE.");
 		
 		System.out.println("\nWhite = 'w'\n"
 						+ "Green = 'g'\n"
@@ -80,7 +80,7 @@ public class Stub {
 		left = reader.nextLine();
 		
 		System.out.println("Face the front face towards you again. Now flip "
-				+ "the cube backwards so that the bottom face is facing you,"
+				+ "the cube backwards so that the bottom face is facing you"
 				+ " and your front face is now pointing up.");
 		
 		System.out.println("Please enter the colors of the bottom face.");
@@ -94,7 +94,7 @@ public class Stub {
 		cubeLayout = bottom + front + top + back + right + left ;
 
 		System.out.println("Make sure you know what sides are the front,"
-				+ "and right. You will be asked to rotate these sides.\n"
+				+ "top, and right faces. You will be asked to rotate these sides.\n"
 				+ "While you wait please verify that you entered your cube"
 				+ " in correctly.");
 
