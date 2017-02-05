@@ -1,2 +1,2 @@
 # 2x2x2-Rubik-s-Cube-Solver
-In construction! Will print out the steps needed to solve a 2x2x2 using recursion.
+This java program takes in the input of a 2x2x2 rubiks cube, and in return uses recursion to print the list of steps needed to solve the cube. 
