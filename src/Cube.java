@@ -18,6 +18,7 @@ public class Cube {
 	Face _frontFace;
 	Face _backFace;
 	
+	final String BEST_SCORE = "1048576";
 	// Constructor
 	public Cube(String cubeInput){
 		
@@ -238,7 +239,7 @@ public class Cube {
 				
 				// This algorithm works as long as the number below is 
 				// greater than or equal to 2^maxMoves.
-				listOfMove.add(0, "1048576");
+				listOfMove.add(0, BEST_SCORE);
 				
 				return listOfMove;
 			}
